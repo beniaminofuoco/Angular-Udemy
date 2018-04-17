@@ -8,16 +8,16 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./servers.component.css']
 })
 export class ServersComponent implements OnInit {
-  private servers: {id: number, name: string, status: string}[] = [];
+  private servers: { id: number, name: string, status: string }[] = [];
 
   constructor(private serversService: ServersService, private router: Router,
-              private route: ActivatedRoute) { }
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.servers = this.serversService.getServers();
   }
 
-  onReload(){
+  onReload() {
     // 1- Così non fa niente, perchè Angular capisce che siamo già nella stessa pagina
     // this.router.navigate(['/servers']);
 
