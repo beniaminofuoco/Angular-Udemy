@@ -22,9 +22,6 @@ export class RecipeService {
                 new Ingredient('Buns', 2)
             ])
     ];
-
-    recipeSelected = new EventEmitter<Recipe>();
-
     constructor(private shoppingService: ShoppingListService){}
 
     getRecipe() {
