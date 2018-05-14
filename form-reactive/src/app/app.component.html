@@ -2,25 +2,43 @@
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
       <!--Per associare il form utilizzando Reactive Form è necessario specificare l'attributo
-       [formGroup] associato al relativo oggetto creato nel componente -> "signupForm"-->
-      <form [formGroup]="signupForm">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <!-- Anche i singoli componenti devono essere associati ai relativi oggetti specificati
-          nel componente formControlName="username" -->
-          <input
-            type="text"
-            id="username"
-            formControlName="username"
-            class="form-control">
-        </div>
-        <div class="form-group">
-          <label for="email">email</label>
-          <input
-            type="text"
-            id="email"
-            formControlName="email"
-            class="form-control">
+       [formGroup] associato al relativo oggetto creato nel componente -> "signupForm".
+      Per poter effetturare il submit del form mappiamo il metodo onSubmit sempre nel
+      tab from.-->
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()"> 
+        <div formGroupName="userData">
+          <div class="form-group">
+              <label for="username">Username</label>
+              <!-- Anche i singoli componenti devono essere associati ai relativi oggetti specificati
+              nel componente formControlName="username" -->
+              <input
+                type="text"
+                id="username"
+                formControlName="username"
+                class="form-control">
+                <!-- Per inserire un controllo a front-end utilizziamo il tag *ngIf e 
+                accediamo direttamente alle properties definite a "backend"-->
+                <span 
+                *ngIf="!signupForm.get('userData.username').valid && 
+                      signupForm.get('userData.username').touched"
+                class="help-block">
+                  Please enter a valid username!
+                </span>
+            </div>
+            <div class="form-group">
+              <label for="email">email</label>
+              <input
+                type="text"
+                id="email"
+                formControlName="email"
+                class="form-control">
+                <span 
+                *ngIf="!signupForm.get('userData.email').valid && 
+                    signupForm.get('userData.email').touched"
+                class="help-block">
+                  Please enter a valid Email!
+                </span>
+            </div>
         </div>
         <div class="radio" *ngFor="let gender of genders">
           <label>
@@ -30,6 +48,24 @@
               [value]="gender">{{ gender }}
           </label>
         </div>
+        <!-- Componente FormArray -->
+        <div formArrayName="hobbies">
+          <h4>Your Hobbies</h4>
+          <button class="btn btn-default" type="button"
+          (click)="onAddHobby()">
+          Add Hobby</button>
+          <div class="form-group"
+          *ngFor="let hobbyControl of signupForm.get('hobbies').controls; let i=index">
+          <input type="text" class="form-control" [formControlName]="i">
+          </div>
+        </div>
+
+        <!-- E' possibile inserire un validatore anche sull'intero Form-->
+        <span 
+        *ngIf="!signupForm.valid && signupForm.touched"
+        class="help-block">
+          Please enter a valid data!
+        </span>
         <button class="btn btn-primary" type="submit">Submit</button>
       </form>
     </div>
