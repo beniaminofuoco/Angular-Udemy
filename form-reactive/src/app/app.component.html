@@ -18,11 +18,20 @@
                 class="form-control">
                 <!-- Per inserire un controllo a front-end utilizziamo il tag *ngIf e 
                 accediamo direttamente alle properties definite a "backend"-->
-                <span 
+                <span class="help-block"
                 *ngIf="!signupForm.get('userData.username').valid && 
-                      signupForm.get('userData.username').touched"
-                class="help-block">
-                  Please enter a valid username!
+                      signupForm.get('userData.username').touched">
+                      <!-- Il primo ngIf controlla che il campo sia valorizzato.
+                      Il secondo invece controlla che il campo non generi errori durante 
+                      la validazione.
+                      Il terzo ngIf controlla che la proprietà required sul campo username sia valida.
+                      In questo modo si avranno due diversi messaggi di errore in base al tipo di errore 
+                      generato in pagina. -->
+                  <span *ngIf="signupForm.get('userData.username').errors['nameIsForbidden']">
+                    This field is Invalid!!
+                  </span><span *ngIf="signupForm.get('userData.username').errors['required']">
+                    This field is required!!
+                  </span>
                 </span>
             </div>
             <div class="form-group">
